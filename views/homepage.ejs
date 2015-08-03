@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Autocomplete - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+
+  <script>
+    
+    function formatItem(item) {
+      return 'name: ' + item.name + ' id:' + item.id;
+    }
+       
+       
+    function find() {   
+	  var product_str = '';
+      var name = $('#name').val();
+      $.getJSON('Food/Autocomplete/' + name)
+          .done(function (data) {
+            $.each(data, function (key, item) {
+              // Add a list item for the product.
+              $('<li>', { text: formatItem(item) }).appendTo($('#product'));
+            });
+          })
+          .fail(function (jqXHR, textStatus, err) {
+            $('#product').text('Error: ' + err);
+          });
+    }
+    
+    
+    function getFoodDetailsByID() {
+      var details_str = '';
+      var id = $('#foodid').val();
+      $.getJSON('Food/' + id)
+          .done(function (data) {
+            $.each(data, function (key, item) {
+              // Add a list item for the product.
+              details_str = details_str + 'name:' + item.name + '  id:' + item.id +
+                          '  company: ' + item.company + 
+                          '  foodNutritionTable: ' + item.foodNutritionTable;
+            });
+            $('#details').text(details_str);
+          })
+          .fail(function (jqXHR, textStatus, err) {
+            $('#details').text('Error: ' + err);
+          });
+    }
+    
+    
+    function saveFood() {
+		var foodname = $('#foodname').val();
+		var companyname = $('#companyname').val();
+		var foodNutritionTableInput = $('#foodNutritionTable').val();
+		var formData = { name : foodname , company : companyname, foodNutritionTable: foodNutritionTableInput }; //Array 
+		$.ajax({
+    		url : "Food/",
+    		type: "POST",
+    		data : formData,
+    		success: function(data, textStatus, jqXHR)
+    		{
+        		$('#result').text('Success: ' + data.success);
+    		},
+    		error: function (jqXHR, textStatus, err)
+    		{
+ 				$('#result').text('Error: ' + err);
+    		}
+		});
+    }
+    
+  </script>
+</head>
+
+
+<body>
+
+        <div >
+        <h2>Search foods by food name</h2>
+        <label for="name">input of name for autocompalete</label>
+        <input type="text" id="name" size="10" />
+        <input type="button" value="Get list of food for autocomplete" onclick="find();" />
+        <p id="product" />
+    	</div>
+    	
+    	<div >
+        <h2>Search food details by food id</h2>
+        <label for="foodid">food id</label>
+        <input type="text" id="foodid" size="20" />
+        <input type="button" value="Details of food given food id" onclick="getFoodDetailsByID();" />
+        <p id="details" />
+    	</div>
+    	
+    	<div >
+        <h2>Save food to DB</h2>
+        <label for="foodname">food name</label>
+        <input type="text" id="foodname" size="10" />
+        <label for="companyname">company name</label>
+        <input type="text" id="companyname" size="10" />
+        <label for="foodNutritionTable">food Nutrition Table</label>
+        <input type="text" id="foodNutritionTable" size="20" />	
+        <input type="button" value="Save food details to DB" onclick="saveFood();" />
+        <p id="result" />
+    	</div>
+ 
+</body>
+</html>
