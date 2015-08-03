@@ -47,6 +47,7 @@ steps of coding:
 ---------------
 http://www.raweng.com/blog/2014/09/24/how-to-get-started-with-sails-js/
 
+
 - sails new scraper
   run command:sails lift
 - cd scraper
@@ -56,7 +57,7 @@ http://www.raweng.com/blog/2014/09/24/how-to-get-started-with-sails-js/
   
 
 Test URL:
-GET http://localhost:1337/Food/autocomplete/food11
+GET http://localhost:1337/Food/Autocomplete/food11
 GET http://localhost:1337/Food/55bdf4ae9b5fe93c0fda33ee
 POST http://localhost:1337/Food?name=name1&company=company1&calories=calories1
 
@@ -70,6 +71,19 @@ curl -X POST --data 'name="food30", company = "company3", calories = "calories1"
 Reference of other URL
 curl -X GET --data 'q="sin"' http://gd.geobytes.com/AutoCompleteCity
 curl http://gd.geobytes.com/AutoCompleteCity/?q=sin
+
+
+------------
+Changed file
+-------------
+Most of files committed are existing files from Sails.
+Below is file list I changed. 
+- api/controllers/FoodController.js
+- api/models/Food.js
+- config/models.js
+- config/routes.js
+- config/connections.js
+- views/homepage.ejs
 
 
 ---------------------------
